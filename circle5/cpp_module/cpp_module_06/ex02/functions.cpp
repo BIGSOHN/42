@@ -47,6 +47,7 @@ void identify(Base& p) {
 		std::cout << "C" << std::endl;
 		return;
 	} catch(const std::exception& e) {
+		// 모든 try 실패 후 마지막에 한 번만 출력
 		std::cout << "Unknown" << std::endl;
 	}
 }

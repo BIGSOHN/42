@@ -1,7 +1,7 @@
 CXX := c++
 CXXFLAGS := -Wall -Wextra -Werror -std=c++98
 RM := rm -f
-NAME := Ex01
+NAME := Ex00
 SRCS := Bureaucrat.cpp \
 		main.cpp
 OBJS := $(SRCS:.cpp=.o)

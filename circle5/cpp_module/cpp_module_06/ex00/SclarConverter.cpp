@@ -6,7 +6,7 @@ bool ScalarConverter::isChar(const std::string& str) {
 	if (str.empty()) {
 		return (false);
 	}
-	if (str.length() == 1) {
+	if (str.length() == 1 && !isdigit(str[0])) {
 		return true;
 	}
 	return (false);
@@ -93,25 +93,7 @@ bool ScalarConverter::isInF(double num) {
 			num == -std::numeric_limits<double>::infinity());
 }
 
-void ScalarConverter::convertFromChar(const std::string& literal) {
-	printChar(literal);
-	printInt(literal);
-	printFloat(literal);
-	printDouble(literal);
-}
-void ScalarConverter::convertFromInt(const std::string& literal) {
-	printChar(literal);
-	printInt(literal);
-	printFloat(literal);
-	printDouble(literal);
-}
-void ScalarConverter::convertFromFloat(const std::string& literal) {
-	printChar(literal);
-	printInt(literal);
-	printFloat(literal);
-	printDouble(literal);
-}
-void ScalarConverter::convertFromDouble(const std::string& literal) {
+void ScalarConverter::convertFromWhat(const std::string& literal) {
 	printChar(literal);
 	printInt(literal);
 	printFloat(literal);
@@ -160,7 +142,6 @@ void ScalarConverter::printFloat(const std::string& literal) {
 		std::cout << "float: " << static_cast<int>(literal[0]) << ".0f" << std::endl;
 		return ;
 	}
-	errno = 0;
 	if (literal == "inff" || literal == "nanf" || literal == "+inff" || literal == "-inff") {
 		std::cout << "float: " << literal << std::endl;
 		return;
@@ -182,7 +163,7 @@ void ScalarConverter::printFloat(const std::string& literal) {
 		if (isInt(literal)) {
 			std::cout << "float: " << static_cast<float>(num) << ".0f" << std::endl;
 		} else {
-			std::cout << "float: " << static_cast<float>(num) << ".f" << std::endl;
+			std::cout << "float: " << static_cast<float>(num) << "f" << std::endl;
 		}
 	}
 }
@@ -192,7 +173,6 @@ void ScalarConverter::printDouble(const std::string& literal) {
 		std::cout << "double: " << static_cast<double>(literal[0]) << ".0" << std::endl;
 		return ;
 	}
-	errno = 0;
 	if (literal == "inff" || literal == "nanf" || literal == "+inff" || literal == "-inff") {
 		std::cout << "double: " << literal.substr(0, literal.length() - 1) << std::endl;
 		return;
@@ -220,14 +200,8 @@ void ScalarConverter::printDouble(const std::string& literal) {
 }
 
 void ScalarConverter::convert(const std::string& literal) {
-	if (isChar(literal)) {
-		convertFromChar(literal);
-	} else if (isInt(literal)) {
-		convertFromInt(literal);
-	} else if (isFloat(literal)) {
-		convertFromFloat(literal);
-	} else if (isDouble(literal)) {
-		convertFromDouble(literal);
+	if (isChar(literal) || isInt(literal) || isFloat(literal) || isDouble(literal)) {
+		convertFromWhat(literal);
 	} else {
 		std::cout << "char: impossible" << std::endl;
 		std::cout << "int: impossible" << std::endl;

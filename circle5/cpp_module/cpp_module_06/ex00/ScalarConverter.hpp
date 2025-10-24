@@ -17,10 +17,7 @@ private:
 	static bool isNaN(double num);
 	static bool isInF(double num);
 
-	static void convertFromChar(const std::string& literal);
-	static void convertFromInt(const std::string& literal);
-	static void convertFromFloat(const std::string& literal);
-	static void convertFromDouble(const std::string& literal);
+	static void convertFromWhat(const std::string& literal);
 
 	static void printChar(const std::string& literal);
 	static void printInt(const std::string& literal);
