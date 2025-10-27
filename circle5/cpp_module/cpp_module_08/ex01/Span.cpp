@@ -24,11 +24,30 @@ Span::~Span() {
 }
 
 void Span::addNumber(int number) {
-
+	if (_numbers.size() >= _maxSize) {
+		throw std::exception();
+	}
+	_numbers.push_back(number);
 }
 unsigned int Span::shortestSpan() {
-
+	if (_numbers.size() < 2) {
+		throw std::exception();
+	}
+	std::sort(_numbers.begin(), _numbers.end());
+	unsigned int minSpan = _numbers[1] - _numbers[0];
+	for (size_t i = 2; i < _numbers.size(); i++) {
+		unsigned span = _numbers[i] - _numbers[i - 1];
+		if (span < minSpan) {
+			minSpan = span;
+		}
+	}
+	return minSpan;
+	
 }
 unsigned int Span::longestSpan() {
-
+	if (_numbers.size() < 2) {
+		throw std::exception();
+	}
+	std::sort(_numbers.begin(), _numbers.end());
+	return (_numbers.back() - _numbers.front());
 }
