@@ -18,6 +18,11 @@ class Span {
 		void addNumber(int number);
 		unsigned int shortestSpan();
 		unsigned int longestSpan();
+
+		template<typename Iterator>
+		void addNumbers(Iterator begin, Iterator end);
 };
+
+#include "Span.tpp"
 
 #endif

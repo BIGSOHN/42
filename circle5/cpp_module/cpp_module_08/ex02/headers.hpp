@@ -7,4 +7,6 @@
 
 #include <vector>
 #include <iterator>
+#include <stack>
+
 # endif

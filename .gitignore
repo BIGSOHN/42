@@ -21,3 +21,6 @@ a.out
 
 # Debug files
 *.dSYM/
+
+# PDF files
+*.pdf
