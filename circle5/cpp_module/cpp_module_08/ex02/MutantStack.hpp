@@ -1,6 +1,6 @@
 #include "headers.hpp"
 
-template <class T, class Container = std::deque<T>> // Container의 기본값이 deque로 설정.
+template <class T, class Container = std::deque<T> > // Container의 기본값이 deque로 설정.
 class MutantStack : public std::stack<T, Container> {
 	public:
 		MutantStack();
