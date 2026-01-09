@@ -1,0 +1,85 @@
+services:
+  mariadb:
+    build: ./requirements/mariadb
+    image: mariadb:latest
+    container_name: mariadb
+    pull_policy: never
+    restart: unless-stopped
+    env_file: .env
+    secrets:
+      - db_root_password
+      - db_password
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - inception_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  wordpress:
+    build: ./requirements/wordpress
+    image: wordpress:latest
+    container_name: wordpress
+    pull_policy: never
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - NGINX_PORT=8443
+    secrets:
+      - db_password
+      - wp_admin_password
+      - wp_user_password
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - inception_network
+
+  nginx:
+    build: ./requirements/nginx
+    image: nginx:latest
+    container_name: nginx
+    pull_policy: never
+    restart: unless-stopped
+    depends_on:
+      - wordpress
+    ports:
+      - "8443:443"
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - inception_network
+
+volumes:
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${USER}/data/mariadb
+
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${USER}/data/wordpress
+
+networks:
+  inception_network:
+    driver: bridge
+
+secrets:
+  db_root_password:
+    file: ../secrets/db_root_password.txt
+  db_password:
+    file: ../secrets/db_password.txt
+  wp_admin_password:
+    file: ../secrets/wp_admin_password.txt
+  wp_user_password:
+    file: ../secrets/wp_user_password.txt
