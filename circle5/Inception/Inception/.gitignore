@@ -1,0 +1,35 @@
+# Environment variables
+.env
+srcs/.env
+*.env.bak
+
+# Secrets
+secrets/
+*.txt
+
+# Data volumes
+data/
+
+# Docker
+.dockerignore
+
+# System files
+.DS_Store
+*~
+*.swp
+*.swo
+*.bak
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Temporary files
+*.tmp
