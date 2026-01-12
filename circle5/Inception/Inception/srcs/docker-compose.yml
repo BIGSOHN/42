@@ -1,7 +1,7 @@
 services:
   mariadb:
     build: ./requirements/mariadb
-    image: mariadb:latest
+    image: mariadb
     container_name: mariadb
     pull_policy: never
     restart: unless-stopped
@@ -14,14 +14,18 @@ services:
     networks:
       - inception_network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test:
+        [
+          'CMD-SHELL',
+          'mysqladmin ping -h localhost -u root -p$$(cat /run/secrets/db_root_password) --silent',
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
 
   wordpress:
     build: ./requirements/wordpress
-    image: wordpress:latest
+    image: wordpress
     container_name: wordpress
     pull_policy: never
     restart: unless-stopped
@@ -42,14 +46,14 @@ services:
 
   nginx:
     build: ./requirements/nginx
-    image: nginx:latest
+    image: nginx
     container_name: nginx
     pull_policy: never
     restart: unless-stopped
     depends_on:
       - wordpress
     ports:
-      - "443:443"
+      - '443:443'
     volumes:
       - wordpress_data:/var/www/html
     networks:

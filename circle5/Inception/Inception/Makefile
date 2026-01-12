@@ -1,8 +1,6 @@
 # Variables
 COMPOSE_FILE = srcs/docker-compose.yml
-ENV_FILE = srcs/.env
 DATA_DIR = $(HOME)/data
-USER = $(shell whoami)
 
 .PHONY: all build up down clean fclean re logs ps setup
 
