@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      - NGINX_PORT=8443
+      - NGINX_PORT=443
     secrets:
       - db_password
       - wp_admin_password
@@ -49,7 +49,7 @@ services:
     depends_on:
       - wordpress
     ports:
-      - "8443:443"
+      - "443:443"
     volumes:
       - wordpress_data:/var/www/html
     networks:
