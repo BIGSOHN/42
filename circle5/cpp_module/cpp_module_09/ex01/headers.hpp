@@ -7,7 +7,7 @@
 
 #include <fstream>
 #include <string>
-#include <ctime>
 #include <sstream>
+#include <cstdlib>
 
 # endif

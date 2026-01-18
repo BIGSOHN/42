@@ -5,18 +5,18 @@
 
 class RPN {
 private:
-	std::stack<int> _stack;
+	std::stack<double> _stack;
 
 	bool isOperator(char c);
-	int calculate(int a, int b, char op);
+	double calculate(int a, int b, char op);
 
 public:
 	RPN();
-	RPN(RPN& other);
-	RPN& operator=(RPN& other);
+	RPN(const RPN& other);
+	RPN& operator=(const RPN& other);
 	~RPN();
 
-	int evaluate(const std::string& expression);
+	void execute(const std::string& expression);
 };
 
 
