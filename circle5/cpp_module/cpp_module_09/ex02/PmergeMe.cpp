@@ -32,7 +32,7 @@ std::vector<int> PmergeMe::generateInsertOrder(size_t pendingSize) {
 	}
 	std::vector<int> insertOrder;
 	int lastInserted = 0; // 마지막으로 삽입된 인덱스 추적
-	for (size_t i = 2; i < jacobsthal.size(); i++) {
+	for (size_t i = 1; i < jacobsthal.size(); i++) {
 		int start = std::min(jacobsthal[i], (int)pendingSize) - 1;
 		int end = lastInserted;
 		for (int j = start; j >= end; j--) {
