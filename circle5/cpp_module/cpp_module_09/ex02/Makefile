@@ -2,7 +2,7 @@ CXX := c++
 CXXFLAGS := -Wall -Wextra -Werror -std=c++98
 RM := rm -f
 NAME := PmergeMe
-SRCS := RPN.cpp \
+SRCS := PmergeMe.cpp \
 		main.cpp
 OBJS := $(SRCS:.cpp=.o)
 

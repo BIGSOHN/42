@@ -13,12 +13,17 @@ private:
 	double _deqTime;
 	size_t _size;
 
+	std::vector<int> generateInsertOrder(size_t pendingSize);
+
 	void mergeInsertSortVec(std::vector<int>& vec);
-	void mergesortVec(std::vector<std::pair<int, int>>& vec, int left, int right);
-	void mergeVec(std::vector<std::pair<int, int>>& vec, int left, int mid, int right);
+	void mergesortVec(std::vector<std::pair<int, int> >& vec, int left, int right);
+	void mergeVec(std::vector<std::pair<int, int> >& vec, int left, int mid, int right);
+	int binarySearchVec(std::vector<int>& arr, int value);
+
 	void mergeInsertSortDeq(std::deque<int>& deq);
-	void mergesortDeq(std::deque<int>& deq, int left, int right);
-	void mergeDeq(std::deque<int>& deq, int left, int mid, int right);
+	void mergesortDeq(std::deque<std::pair<int, int> >& deq, int left, int right);
+	void mergeDeq(std::deque<std::pair<int, int> >& deq, int left, int mid, int right);
+	int binarySearchDeq(std::deque<int>& arr, int value);
 
 public:
 	PmergeMe();

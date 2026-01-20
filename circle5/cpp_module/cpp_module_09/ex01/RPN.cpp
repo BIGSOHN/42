@@ -20,7 +20,7 @@ bool RPN::isOperator(char c) {
 	return (c == '+' || c == '-' || c == '*' || c == '/');
 }
 
-double RPN::calculate(int a, int b, char op) {
+double RPN::calculate(double a, double b, char op) {
 	if (op == '+') {
 		return a + b;
 	} else if (op == '-') {

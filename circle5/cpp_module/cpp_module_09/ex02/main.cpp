@@ -16,6 +16,7 @@ int main(int argc, char** argv) {
     pmerge.printBefore();
     pmerge.sort();
     pmerge.printAfter();
-   
+    pmerge.printTime();
+
     return 0;
 }

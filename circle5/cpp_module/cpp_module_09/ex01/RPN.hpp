@@ -8,7 +8,7 @@ private:
 	std::stack<double> _stack;
 
 	bool isOperator(char c);
-	double calculate(int a, int b, char op);
+	double calculate(double a, double b, char op);
 
 public:
 	RPN();
