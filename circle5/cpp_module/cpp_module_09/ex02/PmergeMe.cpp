@@ -65,6 +65,7 @@ void PmergeMe::mergeInsertSortVec(std::vector<int>& vec) {
 	
 	std::vector<int> mainChain;
 	std::vector<int> pendingElements;
+	std::vector<int> pairPosition; // 각 pending element의 짝(a_k)의 mainChain 내 위치
 
 	mainChain.push_back(pairs[0].second); // 첫 번째 숫자 중 제일 작은 변수를 먼저 넣음
 	for (size_t i = 0; i < pairs.size(); i++) {
@@ -72,9 +73,11 @@ void PmergeMe::mergeInsertSortVec(std::vector<int>& vec) {
 	}
 	for (size_t i = 1; i < pairs.size(); i++) {
 		pendingElements.push_back(pairs[i].second);
+		pairPosition.push_back(i + 1); // pairs[i].first는 mainChain[i+1]에 위치
 	}
 	if (hasLastOdd) {
 		pendingElements.push_back(lastOdd);
+		pairPosition.push_back(mainChain.size() - 1); // lastOdd는 끝까지 탐색
 	}
 
 	// 야콥스탈 수열을 이용해서 정렬
@@ -82,18 +85,26 @@ void PmergeMe::mergeInsertSortVec(std::vector<int>& vec) {
 	for (size_t i = 0; i < insertOrder.size(); i++) {
 		int idx = insertOrder[i];
 		int value = pendingElements[idx];
+		int upperBound = pairPosition[idx];
 
-		// 이진탐색 수행
-		int pos = binarySearchVec(mainChain, value);
+		// 이진탐색 수행 (짝의 위치까지만)
+		int pos = binarySearchVec(mainChain, value, upperBound);
 		mainChain.insert(mainChain.begin() + pos, value);
+
+		// 삽입으로 인해 위치가 밀린 pairPosition 업데이트
+		for (size_t j = 0; j < pairPosition.size(); j++) {
+			if (pairPosition[j] >= pos) {
+				pairPosition[j]++;
+			}
+		}
 	}
 
 	vec = mainChain;
 }
 
-int PmergeMe::binarySearchVec(std::vector<int>& arr, int value) {
+int PmergeMe::binarySearchVec(std::vector<int>& arr, int value, int upperBound) {
 	int left = 0;
-	int right = arr.size() - 1;
+	int right = upperBound;
 
 	while (left <= right) {
 		int mid = left + ((right - left) / 2);
@@ -163,6 +174,7 @@ void PmergeMe::mergeInsertSortDeq(std::deque<int>& deq) {
 
 	std::deque<int> mainChain;
 	std::deque<int> pendingElements;
+	std::vector<int> pairPosition; // 각 pending element의 짝(a_k)의 mainChain 내 위치
 
 	mainChain.push_back(pairs[0].second);
 	for (size_t i = 0; i < pairs.size(); i++) {
@@ -170,26 +182,37 @@ void PmergeMe::mergeInsertSortDeq(std::deque<int>& deq) {
 	}
 	for (size_t i = 1; i < pairs.size(); i++) {
 		pendingElements.push_back(pairs[i].second);
+		pairPosition.push_back(i + 1); // pairs[i].first는 mainChain[i+1]에 위치
 	}
 	if (hasLastOdd) {
 		pendingElements.push_back(lastOdd);
+		pairPosition.push_back(mainChain.size() - 1); // lastOdd는 끝까지 탐색
 	}
 
 	std::vector<int> insertOrder = generateInsertOrder(pendingElements.size());
 	for (size_t i = 0; i < insertOrder.size(); i++) {
 		int idx = insertOrder[i];
 		int value = pendingElements[idx];
+		int upperBound = pairPosition[idx];
 
-		int pos = binarySearchDeq(mainChain, value);
+		// 이진탐색 수행 (짝의 위치까지만)
+		int pos = binarySearchDeq(mainChain, value, upperBound);
 		mainChain.insert(mainChain.begin() + pos, value);
+
+		// 삽입으로 인해 위치가 밀린 pairPosition 업데이트
+		for (size_t j = 0; j < pairPosition.size(); j++) {
+			if (pairPosition[j] >= pos) {
+				pairPosition[j]++;
+			}
+		}
 	}
 
 	deq = mainChain;
 }
 
-int PmergeMe::binarySearchDeq(std::deque<int>& arr, int value) {
+int PmergeMe::binarySearchDeq(std::deque<int>& arr, int value, int upperBound) {
 	int left = 0;
-	int right = arr.size() - 1;
+	int right = upperBound;
 
 	while (left <= right) {
 		int mid = left + ((right - left) / 2);
@@ -271,17 +294,16 @@ void PmergeMe::sort() {
 	start = clock();
 	mergeInsertSortVec(_vec);
 	end = clock();
-	_vecTime = static_cast<double>(end - start);
+	_vecTime = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000;
 
 	// deque 정렬
 	start = clock();
 	mergeInsertSortDeq(_deq);
 	end = clock();
-	_deqTime = static_cast<double>(end - start);
+	_deqTime = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000;
 }
 
-void PmergeMe::printBefore() {
-	std::cout << "Before: ";
+void PmergeMe::printSTL() {
 	for (size_t i = 0; i < _vec.size(); i++) {
 		std::cout << _vec[i];
 		if (i < _vec.size() - 1) {
@@ -289,13 +311,9 @@ void PmergeMe::printBefore() {
 		}
 	}
 	std::cout << std::endl;
-}
-
-void PmergeMe::printAfter() {
-	std::cout << "After: ";
-	for (size_t i = 0; i < _vec.size(); i++) {
-		std::cout << _vec[i];
-		if (i < _vec.size() - 1) {
+	for (size_t i = 0; i < _deq.size(); i++) {
+		std::cout << _deq[i];
+		if (i < _deq.size() - 1) {
 			std::cout << " ";
 		}
 	}

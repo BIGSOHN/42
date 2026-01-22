@@ -18,12 +18,12 @@ private:
 	void mergeInsertSortVec(std::vector<int>& vec);
 	void mergesortVec(std::vector<std::pair<int, int> >& vec, int left, int right);
 	void mergeVec(std::vector<std::pair<int, int> >& vec, int left, int mid, int right);
-	int binarySearchVec(std::vector<int>& arr, int value);
+	int binarySearchVec(std::vector<int>& arr, int value, int upperBound);
 
 	void mergeInsertSortDeq(std::deque<int>& deq);
 	void mergesortDeq(std::deque<std::pair<int, int> >& deq, int left, int right);
 	void mergeDeq(std::deque<std::pair<int, int> >& deq, int left, int mid, int right);
-	int binarySearchDeq(std::deque<int>& arr, int value);
+	int binarySearchDeq(std::deque<int>& arr, int value, int upperBound);
 
 public:
 	PmergeMe();
@@ -33,8 +33,7 @@ public:
 
 	bool parseInput(int argc, char** argv);
 	void sort();
-	void printBefore();
-	void printAfter();
+	void printSTL();
 	void printTime();
 };
 

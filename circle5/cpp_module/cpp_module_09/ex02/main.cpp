@@ -13,9 +13,15 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    pmerge.printBefore();
+    std::cout << "Before : ";
+    pmerge.printSTL();
+    std::cout << std::endl;
+
     pmerge.sort();
-    pmerge.printAfter();
+    
+    std::cout << "After : ";
+    pmerge.printSTL();
+    std::cout << std::endl;
     pmerge.printTime();
 
     return 0;

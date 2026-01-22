@@ -100,7 +100,7 @@ void BitcoinExchange::processLine(const std::string& line) {
 	double value;
 
 	if (!isValidDate(date)) {
-		std::cerr << "Error: wrong date" << std::endl;
+		std::cerr << "Error: wrong date => " << date << std::endl;
 		return;
 	}
 	if (!parseValue(strValue, value)) {
